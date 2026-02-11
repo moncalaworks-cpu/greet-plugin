@@ -54,62 +54,32 @@ Invoke the `name-analyst` agent with the name (extracted or provided)
 - Agent will return: `Status: [SUCCESS|UNAVAILABLE]` and `Insight: [text]`
 - Capture this output exactly as returned
 
-### STEP 4: Invoke Synthesis Agent
+### STEP 4: Invoke Synthesis Agent & Display Result
 Invoke the `combined-profile-analyst` agent with BOTH agent outputs (including status indicators):
 - Pass GitHub agent output (if any)
 - Pass name agent output
-- Agent will parse statuses and return BOTH:
-  - `Greeting: [Your synthesized insight]`
-  - `Sources: [JSON array of sources]`
-- Capture the ENTIRE response including both Greeting and Sources
 
-### STEP 5: Extract Sources & Format Final Output with Metadata
+**The agent returns the COMPLETE FINAL GREETING with sources metadata already formatted.**
 
-The synthesis agent returned both `Greeting:` and `Sources:` lines.
+### STEP 5: Display the Agent Output
 
-**YOU MUST INCLUDE SOURCES IN FINAL OUTPUT.** This is mandatory.
+**Simply display the agent's output exactly as returned.**
 
-**Instructions:**
-1. Extract the greeting text from the synthesis agent (the `Greeting:` line)
-2. Extract the sources array from the synthesis agent (the `Sources:` line)
-3. Convert sources array to comma-separated display string:
-   - `["GitHub", "Name"]` becomes: `GitHub, Name`
-   - `["GitHub"]` becomes: `GitHub`
-   - `["Name"]` becomes: `Name`
-   - `[]` becomes: `None (fallback)`
+The agent has already:
+- Parsed the source statuses
+- Determined which sources are available
+- Generated a personalized greeting
+- Formatted the sources metadata line
 
-**Format the complete final output exactly like this:**
+The output will look like:
 ```
-Hello [name/username]! [Complete greeting text] I'm excited to work with you today!
+[Personalized greeting] I'm excited to work with you today!
 
 ---
-📊 **Data sources**: [comma-separated sources from array]
+📊 **Data sources**: [source names]
 ```
 
-**CRITICAL: The blank line between greeting and sources line is required. The 📊 emoji and bold formatting are required.**
-
-Examples (follow these exactly):
-
-```
-Hello torvalds! With 284,000 followers, you're one of the most influential developers—your Linux work has shaped computing, and your name carries the strength of legends. I'm excited to work with you today!
-
----
-📊 **Data sources**: GitHub, Name
-```
-
-```
-Hello Sophia! Your name carries a beautiful legacy of wisdom across cultures for millennia. I'm excited to work with you today!
-
----
-📊 **Data sources**: Name
-```
-
-```
-Hello Alice! I'm excited to work with you today!
-
----
-📊 **Data sources**: None (fallback)
-```
+**Display this to the user exactly as the agent returns it.**
 
 
 ## Error Handling & Resilience

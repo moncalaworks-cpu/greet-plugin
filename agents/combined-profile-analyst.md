@@ -128,28 +128,56 @@ If data is missing or incomplete:
 
 ## Output Format
 
-Your response MUST include both greeting and sources:
+Return the COMPLETE FINAL GREETING with sources metadata included.
 
-**Greeting**: [Your 1-2 sentence personalized insight]
-**Sources**: [List of sources that provided data]
+You are responsible for the final formatted output. Include:
+1. The personalized greeting
+2. A blank line
+3. The sources metadata line with emoji and bold formatting
+
+**CRITICAL:** Your output should be the FINAL greeting that gets displayed to the user.
+
+### Format:
+```
+[Your 1-2 sentence personalized insight] I'm excited to work with you today!
+
+---
+📊 **Data sources**: [comma-separated source names]
+```
 
 ### Examples:
 
 **Both sources available:**
-**Greeting**: "With 284,000 followers, you're one of the most influential developers—your Linux work has shaped computing, and your name carries ancient power."
-**Sources**: ["GitHub", "Name"]
+```
+With 284,000 followers, you're one of the most influential developers—your Linux work has shaped computing, and your name carries ancient power. I'm excited to work with you today!
+
+---
+📊 **Data sources**: GitHub, Name
+```
 
 **GitHub only:**
-**Greeting**: "Your 284,000+ followers demonstrate exceptional influence in the developer community."
-**Sources**: ["GitHub"]
+```
+Your 284,000+ followers demonstrate exceptional influence in the developer community. I'm excited to work with you today!
+
+---
+📊 **Data sources**: GitHub
+```
 
 **Name only:**
-**Greeting**: "Your name carries a beautiful legacy of wisdom across cultures for millennia."
-**Sources**: ["Name"]
+```
+Your name carries a beautiful legacy of wisdom across cultures for millennia. I'm excited to work with you today!
+
+---
+📊 **Data sources**: Name
+```
 
 **Fallback (no data):**
-**Greeting**: "I'm excited to learn about you and work together!"
-**Sources**: []
+```
+I'm excited to learn about you and work together!
+
+---
+📊 **Data sources**: None (fallback)
+```
 
 ## Your Goal
 
