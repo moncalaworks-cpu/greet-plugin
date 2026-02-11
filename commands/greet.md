@@ -33,6 +33,8 @@ Format & Output Greeting
 
 **You MUST execute this workflow - do not skip or simplify steps.**
 
+**CRITICAL:** The final output MUST include the sources metadata line. This is not optional.
+
 The user provided: `$ARGUMENTS`
 
 ### STEP 1: Parse Input
@@ -56,18 +58,32 @@ Invoke the `name-analyst` agent with the name (extracted or provided)
 Invoke the `combined-profile-analyst` agent with BOTH agent outputs (including status indicators):
 - Pass GitHub agent output (if any)
 - Pass name agent output
-- Agent will parse statuses and return:
+- Agent will parse statuses and return BOTH:
   - `Greeting: [Your synthesized insight]`
   - `Sources: [JSON array of sources]`
+- Capture the ENTIRE response including both Greeting and Sources
 
-### STEP 5: Format Final Output
-Parse the synthesis agent output and format as:
+### STEP 5: CRITICAL - Extract Sources and Format Final Output
+
+**MUST DO:**
+1. Parse the synthesis agent response line by line
+2. Find the line starting with `Sources: ` - this contains the JSON array
+3. Extract the array value (e.g., `["GitHub", "Name"]` or `["Name"]` or `[]`)
+4. Convert array to comma-separated string for display
+5. Format the final greeting with sources metadata
+
+**Exact format:**
 ```
 Hello [name/username]! [Greeting text from synthesis agent] I'm excited to work with you today!
 
 ---
-📊 **Data sources**: [comma-separated sources from array, or "None (fallback)"]
+📊 **Data sources**: [comma-separated sources]
 ```
+
+**Examples:**
+- If sources array is `["GitHub", "Name"]` → display: `GitHub, Name`
+- If sources array is `["Name"]` → display: `Name`
+- If sources array is `[]` → display: `None (fallback)`
 
 ### Step 6: Format Final Greeting with Source Metadata
 
