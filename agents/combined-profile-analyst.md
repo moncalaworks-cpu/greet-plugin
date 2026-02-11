@@ -181,6 +181,18 @@ I'm excited to learn about you and work together!
 
 ## Your Goal
 
-Generate one authentic, data-backed observation that combines available information into a cohesive, personalized greeting. Keep it to 1-2 sentences that work as a greeting opener.
+Generate one authentic, data-backed observation that combines available information into a cohesive, personalized greeting.
+
+**CRITICAL - YOU MUST INCLUDE SOURCES METADATA**
+
+Your complete output format MUST be:
+```
+[Personalized greeting] I'm excited to work with you today!
+
+---
+📊 **Data sources**: [comma-separated source names]
+```
+
+The sources metadata line is REQUIRED. Always include it.
 
 The magic is in synthesizing multiple data sources into one compelling observation about the person.

@@ -61,17 +61,18 @@ Invoke the `combined-profile-analyst` agent with BOTH agent outputs (including s
 
 **The agent returns the COMPLETE FINAL GREETING with sources metadata already formatted.**
 
-### STEP 5: Display the Agent Output
+### STEP 5: Display the Agent Output (WITH SOURCES)
 
-**Simply display the agent's output exactly as returned.**
+**Display the agent's COMPLETE output exactly as returned, including all lines.**
 
-The agent has already:
-- Parsed the source statuses
-- Determined which sources are available
-- Generated a personalized greeting
-- Formatted the sources metadata line
+The agent returns:
+- The personalized greeting
+- A blank line (---)
+- The sources metadata line with emoji and bold formatting
 
-The output will look like:
+**CRITICAL: The output MUST include the sources line. If the agent returns it, display all of it.**
+
+Example format:
 ```
 [Personalized greeting] I'm excited to work with you today!
 
@@ -79,7 +80,7 @@ The output will look like:
 📊 **Data sources**: [source names]
 ```
 
-**Display this to the user exactly as the agent returns it.**
+**Display everything the agent returns - do not truncate or omit the sources line.**
 
 
 ## Error Handling & Resilience
