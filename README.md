@@ -424,11 +424,16 @@ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software...
 ```
 
+## Sources Tracking Feature
+
+The greet-plugin includes comprehensive **sources tracking** that identifies which data sources contributed to each greeting. See [SOURCES_TRACKING.md](SOURCES_TRACKING.md) for complete documentation of this feature.
+
 ## Related Resources
 
 - **Claude Code Documentation**: [https://code.claude.com/docs](https://code.claude.com/docs)
 - **GitHub API Docs**: [https://docs.github.com/en/rest](https://docs.github.com/en/rest)
 - **MCP Protocol**: [https://modelcontextprotocol.io](https://modelcontextprotocol.io)
+- **Sources Tracking Documentation**: [SOURCES_TRACKING.md](SOURCES_TRACKING.md)
 
 ## Changelog
 
