@@ -29,54 +29,45 @@ Synthesize Personalized Insight
 Format & Output Greeting
 ```
 
-## Step-by-Step Instructions
+## WORKFLOW EXECUTION REQUIRED
 
-### Step 1: Extract & Validate Input
-- If no input: Ask for name or GitHub username
-- If input provided: Continue to detection
+**You MUST execute this workflow - do not skip or simplify steps.**
 
-### Step 2: Intelligent Input Detection
-Determine input type:
-- **GitHub username indicators**: lowercase, alphanumeric + hyphens, no spaces, 2-39 chars
-- **Regular name indicators**: Contains uppercase or spaces, natural language format
-- **Email indicators**: Contains @ symbol
-- **Unknown**: Treat as regular name
+The user provided: `$ARGUMENTS`
 
-### Step 3: Parallel Data Gathering
-**Launch operations in parallel:**
+### STEP 1: Parse Input
+Extract the name/username from arguments. If empty, ask user to provide input.
 
-**Operation A: GitHub Profile (if applicable)**
-- Detect if it's a GitHub username
-- If yes: Launch github-profile-analyst agent
-- Agent fetches via GitHub MCP
-- Agent analyzes: followers, company, bio, repos, activity
-- On failure: Gracefully mark as unavailable
-- On success: Save profile data
+### STEP 2: Invoke GitHub Agent (if applicable)
+**Determine if input looks like GitHub username** (lowercase, 2-39 chars, alphanumeric + hyphens)
 
-**Operation B: Name Analysis (always)**
-- Extract name from input (if GitHub username, use as name)
-- Launch name-analyst agent
-- Agent researches: origin, meaning, etymology
-- On failure: Use generic name greeting
-- On success: Save name analysis
+IF YES: Invoke the `github-profile-analyst` agent with the username
+- Agent will return: `Status: [SUCCESS|UNAVAILABLE]` and `Insight: [text]`
+- Capture this output exactly as returned
 
-**Both operations run simultaneously** - don't wait for one to complete before starting the other
+IF NO: Skip this step (no GitHub data available)
 
-### Step 4: Wait for Completion
-- Both operations complete
-- Gather results (may be partial if service unavailable)
-- Move to synthesis
+### STEP 3: Invoke Name Agent
+Invoke the `name-analyst` agent with the name (extracted or provided)
+- Agent will return: `Status: [SUCCESS|UNAVAILABLE]` and `Insight: [text]`
+- Capture this output exactly as returned
 
-### Step 5: Synthesize Combined Insight & Determine Sources
-- Launch combined-profile-analyst agent
-- Provide agent with:
-  - GitHub agent output (with status indicator)
-  - Name agent output (with status indicator)
-- Agent must:
-  1. Parse which sources provided data (check Status: SUCCESS)
-  2. Build sources array: ["GitHub"], ["Name"], ["GitHub", "Name"], or []
-  3. Generate unified insight based on available data
-  4. Return format: **Greeting**: [text] **Sources**: [array]
+### STEP 4: Invoke Synthesis Agent
+Invoke the `combined-profile-analyst` agent with BOTH agent outputs (including status indicators):
+- Pass GitHub agent output (if any)
+- Pass name agent output
+- Agent will parse statuses and return:
+  - `Greeting: [Your synthesized insight]`
+  - `Sources: [JSON array of sources]`
+
+### STEP 5: Format Final Output
+Parse the synthesis agent output and format as:
+```
+Hello [name/username]! [Greeting text from synthesis agent] I'm excited to work with you today!
+
+---
+📊 **Data sources**: [comma-separated sources from array, or "None (fallback)"]
+```
 
 ### Step 6: Format Final Greeting with Source Metadata
 
@@ -118,64 +109,33 @@ Hello Alice! I'm excited to work with you today!
 📊 **Data sources**: None (fallback)
 ```
 
-## Example Workflows
+## Examples
 
-### Scenario 1: GitHub Username (torvalds)
+**GitHub Username (torvalds):**
 ```
-Input: torvalds
-  ↓
-Detect: GitHub username
-  ↓
-Parallel:
-├─ A: Fetch GitHub profile → followers: 284k, company: Linux Foundation
-└─ B: Research name "Linus" → meaning: from Roman mythology, ancient roots
-  ↓
-Synthesis:
-"With 284k followers, you're one of the most influential developers—
-your Linux work has shaped computing, and your name carries ancient
-power and significance."
-  ↓
-Output: "Hello torvalds! With 284k followers, you're one of the most
+Hello torvalds! With 284,000+ followers, you're one of the most
 influential developers—your Linux work has shaped computing. I'm
-excited to work with you today!"
+excited to work with you today!
+
+---
+📊 **Data sources**: GitHub, Name
 ```
 
-### Scenario 2: Regular Name (Sophia)
+**Regular Name (Sophia):**
 ```
-Input: Sophia
-  ↓
-Detect: Regular name
-  ↓
-Parallel:
-├─ A: GitHub search → Not found / No public profile
-└─ B: Research name "Sophia" → meaning: Wisdom, Greek origin, ancient philosophy
-  ↓
-Synthesis:
-"Your name means wisdom with philosophical roots spanning millennia—
-a name for thoughtful, principled people."
-  ↓
-Output: "Hello Sophia! Your name carries a beautiful legacy of wisdom—
-it's a name that has inspired thoughtful minds across cultures for
-millennia. I'm excited to work with you today!"
+Hello Sophia! Your name carries a beautiful legacy of wisdom across
+cultures for millennia. I'm excited to work with you today!
+
+---
+📊 **Data sources**: Name
 ```
 
-### Scenario 3: Partial Data (GitHub Unavailable)
+**Graceful Fallback (both unavailable):**
 ```
-Input: alice
-  ↓
-Detect: Regular name
-  ↓
-Parallel:
-├─ A: GitHub search → Service timeout / Not found
-└─ B: Research name "Alice" → meaning: Noble, from Germanic roots
-  ↓
-Synthesis (with graceful fallback):
-"Your name has noble roots meaning 'noble'—a classic name carrying
-elegance and strength through the ages."
-  ↓
-Output: "Hello Alice! Your name carries noble roots—it's a classic
-name that has inspired grace and strength through the ages. I'm
-excited to work with you today!"
+Hello Alice! I'm excited to work with you today!
+
+---
+📊 **Data sources**: None (fallback)
 ```
 
 ## Error Handling & Resilience
