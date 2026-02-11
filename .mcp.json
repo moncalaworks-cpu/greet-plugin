@@ -1,0 +1,7 @@
+{
+  "github": {
+    "type": "http",
+    "url": "https://api.github.com",
+    "description": "GitHub API for fetching user profiles and repository information"
+  }
+}

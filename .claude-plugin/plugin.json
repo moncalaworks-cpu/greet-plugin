@@ -1,0 +1,8 @@
+{
+  "name": "greet-plugin",
+  "description": "A simple greeting plugin to learn how plugins work",
+  "author": {
+    "name": "Claude Learning Project",
+    "email": "learn@example.com"
+  }
+}
