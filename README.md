@@ -68,6 +68,9 @@ Hello torvalds! Your 284,000+ followers on GitHub are a testament to
 your foundational impact on modern computing—your Linux kernel has
 shaped the digital infrastructure that billions rely on daily. I'm
 excited to work with you today!
+
+---
+📊 **Data sources**: GitHub, Name
 ```
 
 **Regular Name:**
@@ -75,6 +78,9 @@ excited to work with you today!
 Hello Sophia! Your name carries a beautiful legacy of wisdom—a name
 that has inspired thoughtful minds across cultures for millennia. I'm
 excited to work with you today!
+
+---
+📊 **Data sources**: Name
 ```
 
 ## Architecture
@@ -260,6 +266,17 @@ Performance Gain: ~40% faster
 - This is expected behavior
 - Cache provides performance improvement
 - Clear cache if needed (varies by system)
+
+### Issue: Sources Field Shows Unexpected Values
+
+**Symptom**: Sources shows `[]` or wrong combination
+
+**Causes & Solutions**:
+- GitHub MCP unavailable → Check MCP configuration in .mcp.json
+- Name research failing → Verify WebSearch/WebFetch tools available
+- Agent status not parsed → Check agent output format matches specification
+
+**Verify**: Run `/greet torvalds` and check sources includes "GitHub"
 
 ## Examples
 

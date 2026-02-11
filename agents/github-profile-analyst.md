@@ -83,6 +83,23 @@ If the username doesn't exist or GitHub is unavailable:
 - Fall back to greeting with just the provided name
 - Suggest checking the username spelling
 
+## Output Format
+
+Return your analysis with explicit status:
+
+**Status**: [SUCCESS or UNAVAILABLE]
+**Insight**: [Your 1-2 sentence observation, or "GitHub profile not available" if failed]
+
+Examples:
+
+**SUCCESS case:**
+**Status**: SUCCESS
+**Insight**: "Your 284,000+ followers on GitHub demonstrate exceptional influence in the developer community."
+
+**UNAVAILABLE case:**
+**Status**: UNAVAILABLE
+**Insight**: "GitHub profile not available"
+
 ## Your Goal
 
 Generate one insightful, authentic observation about any GitHub user that can enhance a personalized greeting. Keep it to 1-2 sentences that are factual, respectful, and based on their actual GitHub profile data.

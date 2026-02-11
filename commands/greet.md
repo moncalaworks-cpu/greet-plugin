@@ -67,18 +67,56 @@ Determine input type:
 - Gather results (may be partial if service unavailable)
 - Move to synthesis
 
-### Step 5: Synthesize Combined Insight
+### Step 5: Synthesize Combined Insight & Determine Sources
 - Launch combined-profile-analyst agent
-- Provide agent with: GitHub data (if any) + name analysis (if any)
-- Agent synthesizes into single, unified insight
-- Agent handles incomplete data gracefully
-- Agent generates 1-2 sentence personalized observation
+- Provide agent with:
+  - GitHub agent output (with status indicator)
+  - Name agent output (with status indicator)
+- Agent must:
+  1. Parse which sources provided data (check Status: SUCCESS)
+  2. Build sources array: ["GitHub"], ["Name"], ["GitHub", "Name"], or []
+  3. Generate unified insight based on available data
+  4. Return format: **Greeting**: [text] **Sources**: [array]
 
-### Step 6: Format Final Greeting
-Combine:
-- Warm opening: "Hello [name/username]!"
-- Synthesized insight: "[Agent's combined insight]"
-- Closing: "I'm excited to work with you today!"
+### Step 6: Format Final Greeting with Source Metadata
+
+Parse the synthesis agent's output to extract:
+- Greeting text (from **Greeting**: line)
+- Sources array (from **Sources**: line)
+
+Output format:
+```
+Hello [name/username]! [Synthesized insight] I'm excited to work with you today!
+
+---
+📊 **Data sources**: [comma-separated source names, or "None (fallback)" if empty]
+```
+
+Examples:
+
+**Both sources:**
+```
+Hello torvalds! With 284,000 followers, you're one of the most influential developers—your Linux work has shaped computing. I'm excited to work with you today!
+
+---
+📊 **Data sources**: GitHub, Name
+```
+
+**Single source:**
+```
+Hello Sophia! Your name carries a beautiful legacy of wisdom across cultures for millennia. I'm excited to work with you today!
+
+---
+📊 **Data sources**: Name
+```
+
+**Fallback (no sources):**
+```
+Hello Alice! I'm excited to work with you today!
+
+---
+📊 **Data sources**: None (fallback)
+```
 
 ## Example Workflows
 
@@ -143,20 +181,23 @@ excited to work with you today!"
 ## Error Handling & Resilience
 
 **If GitHub MCP fails:**
+- Sources: ["Name"]
 - Continue with name analysis
-- Generate greeting from name alone
-- No error message to user (graceful degradation)
+- No error message shown to user
 
 **If name analysis fails:**
-- Use generic warm greeting
-- Focus on working together
+- Sources: ["GitHub"]
+- Use GitHub data only
+- Warm greeting maintained
 
 **If both fail:**
+- Sources: []
 - Fallback: "Hello [name]! I'm excited to work with you today!"
+- Display: "Data sources: None (fallback)"
 
 **Partial success:**
-- Use whichever data is available
-- Synthesize agent creates best possible greeting
+- Sources array reflects actual data availability
+- Example: GitHub timeout → sources: ["Name"]
 
 ## Parallelization Benefits
 
