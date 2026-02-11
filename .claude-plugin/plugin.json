@@ -1,8 +1,41 @@
 {
   "name": "greet-plugin",
-  "description": "A simple greeting plugin to learn how plugins work",
+  "description": "Production-grade plugin that generates intelligent, data-driven personalized greetings by combining name analysis with GitHub profile data",
+  "version": "1.1.0",
   "author": {
     "name": "Claude Learning Project",
     "email": "learn@example.com"
-  }
+  },
+  "agents": [
+    {
+      "name": "github-profile-analyst",
+      "description": "Analyzes GitHub user profiles to generate personalized greetings",
+      "file": "agents/github-profile-analyst.md",
+      "model": "haiku",
+      "tools": ["WebFetch"]
+    },
+    {
+      "name": "name-analyst",
+      "description": "Analyzes names and provides interesting facts and etymology",
+      "file": "agents/name-analyst.md",
+      "model": "haiku",
+      "tools": ["WebFetch", "WebSearch"]
+    },
+    {
+      "name": "combined-profile-analyst",
+      "description": "Analyzes combined name and GitHub profile data for comprehensive personalization",
+      "file": "agents/combined-profile-analyst.md",
+      "model": "haiku",
+      "tools": ["WebFetch", "WebSearch"]
+    }
+  ],
+  "mcpServers": {
+    "github": {
+      "type": "http",
+      "url": "https://api.github.com",
+      "description": "GitHub API for fetching user profiles"
+    }
+  },
+  "keywords": ["greeting", "personalization", "github", "name-analysis", "parallel-execution"],
+  "repository": "https://github.com/moncalaworks-cpu/greet-plugin"
 }
