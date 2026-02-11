@@ -63,53 +63,40 @@ Invoke the `combined-profile-analyst` agent with BOTH agent outputs (including s
   - `Sources: [JSON array of sources]`
 - Capture the ENTIRE response including both Greeting and Sources
 
-### STEP 5: CRITICAL - Extract Sources and Format Final Output
+### STEP 5: Extract Sources & Format Final Output with Metadata
 
-**MUST DO:**
-1. Parse the synthesis agent response line by line
-2. Find the line starting with `Sources: ` - this contains the JSON array
-3. Extract the array value (e.g., `["GitHub", "Name"]` or `["Name"]` or `[]`)
-4. Convert array to comma-separated string for display
-5. Format the final greeting with sources metadata
+The synthesis agent returned both `Greeting:` and `Sources:` lines.
 
-**Exact format:**
+**YOU MUST INCLUDE SOURCES IN FINAL OUTPUT.** This is mandatory.
+
+**Instructions:**
+1. Extract the greeting text from the synthesis agent (the `Greeting:` line)
+2. Extract the sources array from the synthesis agent (the `Sources:` line)
+3. Convert sources array to comma-separated display string:
+   - `["GitHub", "Name"]` becomes: `GitHub, Name`
+   - `["GitHub"]` becomes: `GitHub`
+   - `["Name"]` becomes: `Name`
+   - `[]` becomes: `None (fallback)`
+
+**Format the complete final output exactly like this:**
 ```
-Hello [name/username]! [Greeting text from synthesis agent] I'm excited to work with you today!
+Hello [name/username]! [Complete greeting text] I'm excited to work with you today!
 
 ---
-📊 **Data sources**: [comma-separated sources]
+📊 **Data sources**: [comma-separated sources from array]
 ```
 
-**Examples:**
-- If sources array is `["GitHub", "Name"]` → display: `GitHub, Name`
-- If sources array is `["Name"]` → display: `Name`
-- If sources array is `[]` → display: `None (fallback)`
+**CRITICAL: The blank line between greeting and sources line is required. The 📊 emoji and bold formatting are required.**
 
-### Step 6: Format Final Greeting with Source Metadata
+Examples (follow these exactly):
 
-Parse the synthesis agent's output to extract:
-- Greeting text (from **Greeting**: line)
-- Sources array (from **Sources**: line)
-
-Output format:
 ```
-Hello [name/username]! [Synthesized insight] I'm excited to work with you today!
-
----
-📊 **Data sources**: [comma-separated source names, or "None (fallback)" if empty]
-```
-
-Examples:
-
-**Both sources:**
-```
-Hello torvalds! With 284,000 followers, you're one of the most influential developers—your Linux work has shaped computing. I'm excited to work with you today!
+Hello torvalds! With 284,000 followers, you're one of the most influential developers—your Linux work has shaped computing, and your name carries the strength of legends. I'm excited to work with you today!
 
 ---
 📊 **Data sources**: GitHub, Name
 ```
 
-**Single source:**
 ```
 Hello Sophia! Your name carries a beautiful legacy of wisdom across cultures for millennia. I'm excited to work with you today!
 
@@ -117,7 +104,6 @@ Hello Sophia! Your name carries a beautiful legacy of wisdom across cultures for
 📊 **Data sources**: Name
 ```
 
-**Fallback (no sources):**
 ```
 Hello Alice! I'm excited to work with you today!
 
@@ -125,34 +111,6 @@ Hello Alice! I'm excited to work with you today!
 📊 **Data sources**: None (fallback)
 ```
 
-## Examples
-
-**GitHub Username (torvalds):**
-```
-Hello torvalds! With 284,000+ followers, you're one of the most
-influential developers—your Linux work has shaped computing. I'm
-excited to work with you today!
-
----
-📊 **Data sources**: GitHub, Name
-```
-
-**Regular Name (Sophia):**
-```
-Hello Sophia! Your name carries a beautiful legacy of wisdom across
-cultures for millennia. I'm excited to work with you today!
-
----
-📊 **Data sources**: Name
-```
-
-**Graceful Fallback (both unavailable):**
-```
-Hello Alice! I'm excited to work with you today!
-
----
-📊 **Data sources**: None (fallback)
-```
 
 ## Error Handling & Resilience
 
